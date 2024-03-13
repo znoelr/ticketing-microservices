@@ -2,8 +2,9 @@ import express from 'express';
 
 const app = express();
 
-app.get('auht', (req, res) => {
-  res.send('Hi there!');
+app.get('*', (req, res) => {
+  const { url, baseUrl, originalUrl } = req;
+  res.json({ url, baseUrl, originalUrl });
 });
 
 app.listen(3000, () => {
