@@ -12,7 +12,7 @@ spec:
     http:
       paths:
       - pathType: Prefix
-        path: "/api/auth"
+        path: "/"
         backend:
           service:
             name: auth-cluster-ip-srv

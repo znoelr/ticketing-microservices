@@ -3,8 +3,10 @@ kind: Config
 metadata:
   name: ticketing-microservices
 build:
+  googleCloudBuild:
+    projectId: microservices-ticketing-417105
   artifacts:
-    - image: ticketing/auth
+    - image: us.gcr.io/microservices-ticketing-417105/auth
       context: auth
       docker:
         dockerfile: Dockerfile

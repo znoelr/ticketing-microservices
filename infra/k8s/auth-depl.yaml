@@ -13,11 +13,11 @@ spec:
     spec:
       containers:
       - name: auth
-        image: ticketing/auth
+        image: us.gcr.io/microservices-ticketing-417105/auth
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: "512Mi"
+            cpu: "1000m"
         ports:
         - containerPort: 3000
 
