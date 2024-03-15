@@ -1,9 +1,9 @@
-import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 
-export const client = new MongoClient('mongodb://auth-mongo-cluster-ip:27017/auth');
+const MONGO_URI = 'mongodb://auth-mongo-cluster-ip:27017/auth_db';
 
 export const connectDb = () => {
-  client.connect()
+  mongoose.connect(MONGO_URI)
     .then(() => console.log('Successful DB connection'))
-    .catch((err) => console.log(err));
+    .catch((err: Error) => console.log(err));
 };
