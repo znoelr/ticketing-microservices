@@ -8,6 +8,11 @@ connectDb();
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log('Got request', req.url);
+  next();
+});
+
 app.use(express.json());
 app.use('/auth', authRouter);
 app.use(errorHandler);
@@ -15,7 +20,3 @@ app.use(errorHandler);
 app.listen(3000, () => {
   console.log(`App listening on port 3000`);
 });
-
-process.on('uncaughtException', (err) => {
-  console.log('UncaughtEx', err);
-})
