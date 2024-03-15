@@ -1,6 +1,9 @@
 import express from 'express';
 import authRouter from './auth.router';
 import { errorHandler } from './middlewares/error-handler.middleware';
+import { connectDb } from './db';
+
+connectDb();
 
 const app = express();
 
@@ -11,3 +14,7 @@ app.use(errorHandler);
 app.listen(3000, () => {
   console.log(`App listening on port 3000`);
 });
+
+process.on('uncaughtException', (err) => {
+  console.log('UncaughtEx', err);
+})
