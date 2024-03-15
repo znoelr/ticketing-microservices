@@ -1,4 +1,5 @@
 import express from 'express';
+import 'express-async-errors';
 import authRouter from './auth.router';
 import { errorHandler } from './middlewares/error-handler.middleware';
 import { connectDb } from './db';
