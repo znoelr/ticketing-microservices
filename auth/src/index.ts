@@ -5,6 +5,11 @@ import authRouter from './auth.router';
 import { errorHandler } from './middlewares/error-handler.middleware';
 import { connectDb } from './db';
 
+if(!process.env.JWT_KEY) {
+  console.error('Env "JWT_KEY" must be provided');
+  process.exit(1);
+}
+
 connectDb();
 
 const app = express();

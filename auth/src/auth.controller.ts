@@ -20,7 +20,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
   const token = jwt.sign({
     id: newUser._id,
     email: newUser.email,
-  }, 'secret_key');
+  }, process.env.JWT_KEY!);
   req.session = { jwt: token };
   res.json(newUser);
 }
