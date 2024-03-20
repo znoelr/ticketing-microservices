@@ -40,3 +40,20 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
   req.session = { jwt: token };
   res.status(200).json(foundUser);
 }
+
+export const currentUser = async (req: Request, res: Response, next: NextFunction) => {
+  const token = req.session?.jwt || '';
+  if (!token) {
+    res.json({ currentUser: null });
+    return;
+  }
+  try {
+    // Generate JWT
+    const jwtPayload = jwt.verify(token, process.env.JWT_KEY!);
+    req.session = { jwt: token };
+    res.json({ currentUser: jwtPayload });
+  }
+  catch (error) {
+    res.json({ currentUser: null });
+  }
+}
