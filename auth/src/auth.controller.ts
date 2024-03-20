@@ -1,14 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { validationResult } from "express-validator";
 import jwt from 'jsonwebtoken';
-import { BadRequestError, RequestValidationError } from "./errors";
+import { BadRequestError } from "./errors";
 import { User } from "./db/models/user.model";
+import { HashService } from "./services/hash.service";
 
 export const signup = async (req: Request, res: Response, next: NextFunction) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw new RequestValidationError(errors.array());
-  }
   const { email, password } = req.body;
   const foundUser = await User.findOne({ email });
   if (foundUser) {
@@ -22,5 +18,25 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
     email: newUser.email,
   }, process.env.JWT_KEY!);
   req.session = { jwt: token };
-  res.json(newUser);
+  res.status(201).json(newUser);
+}
+
+
+export const signin = async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password } = req.body;
+  const foundUser = await User.findOne({ email });
+  if (!foundUser) {
+    throw new BadRequestError('Invalid credentials');
+  }
+  const isValidPassword = await HashService.compare(foundUser.password, password);
+  if (!isValidPassword) {
+    throw new BadRequestError('Invalid credentials');
+  }
+  // Generate JWT
+  const token = jwt.sign({
+    id: foundUser._id,
+    email: foundUser.email,
+  }, process.env.JWT_KEY!);
+  req.session = { jwt: token };
+  res.status(200).json(foundUser);
 }
