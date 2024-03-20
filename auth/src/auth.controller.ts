@@ -46,19 +46,8 @@ export const signout = async (req: Request, res: Response, next: NextFunction) =
   res.end();
 }
 
-export const currentUser = async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.session?.jwt || '';
-  if (!token) {
-    res.json({ currentUser: null });
-    return;
-  }
-  try {
-    // Generate JWT
-    const jwtPayload = jwt.verify(token, process.env.JWT_KEY!);
-    req.session = { jwt: token };
-    res.json({ currentUser: jwtPayload });
-  }
-  catch (error) {
-    res.json({ currentUser: null });
-  }
+export const getMe = async (req: Request, res: Response, next: NextFunction) => {
+  res.json({
+    currentUser: req.currentUser || null,
+  });
 }
