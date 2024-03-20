@@ -41,6 +41,11 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
   res.status(200).json(foundUser);
 }
 
+export const signout = async (req: Request, res: Response, next: NextFunction) => {
+  req.session = null;
+  res.end();
+}
+
 export const currentUser = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.session?.jwt || '';
   if (!token) {
