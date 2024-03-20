@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt';
+import { HashService } from "../../services/hash.service";
 
 const Schema = mongoose.Schema;
 
@@ -30,7 +30,7 @@ export const userSchema = new Schema({
 
 userSchema.pre('save', async function(done) {
   if (this.isModified('password')) {
-    const hashed = await bcrypt.hash(this.password, 10);
+    const hashed = await HashService.toHash(this.password);
     this.set('password', hashed);
   }
   done();
