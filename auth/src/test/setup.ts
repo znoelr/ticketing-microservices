@@ -1,6 +1,11 @@
-import mogoose from 'mongoose';
+import { Express } from 'express';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
+import request from 'supertest';
+
+declare global {
+  var singup: (app: Express) => Promise<string[]>;
+}
 
 let mongo: any;
 
@@ -26,3 +31,15 @@ afterAll(async () => {
   }
   await mongoose.connection.close();
 });
+
+global.singup = async (app: Express) => {
+  const signupResponse = await request(app)
+    .post('/auth/signup')
+    .send({
+      email: 'test@gmail.com',
+      password: 'abcde$12345',
+    })
+    .expect(201);
+  const cookie = signupResponse.get('Set-Cookie');
+  return cookie;
+}
