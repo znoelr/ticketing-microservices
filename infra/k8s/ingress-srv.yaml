@@ -11,10 +11,18 @@ spec:
   - host: ticketing.dev
     http:
       paths:
-      - pathType: Prefix
-        path: "/auth"
+      - path: /api/auth/?(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
             name: auth-cluster-ip-srv
             port: 
+              number: 3000
+
+      - path: /?(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: client-cluster-ip-srv
+            port:
               number: 3000
