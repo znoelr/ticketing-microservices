@@ -5,7 +5,7 @@ it('gets the logged in user', async () => {
   const cookie = await global.singup(app);
 
   const response = await request(app)
-  .get('/auth/me')
+  .get('/api/auth/me')
   .set('Cookie', cookie)
   .send()
   .expect(200);
@@ -15,7 +15,7 @@ it('gets the logged in user', async () => {
 
 it('responsds with null if not authenticated', async () => {
   const response = await request(app)
-  .get('/auth/me')
+  .get('/api/auth/me')
   .send()
   .expect(200);
 

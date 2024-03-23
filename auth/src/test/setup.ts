@@ -34,7 +34,7 @@ afterAll(async () => {
 
 global.singup = async (app: Express) => {
   const signupResponse = await request(app)
-    .post('/auth/signup')
+    .post('/api/auth/signup')
     .send({
       email: 'test@gmail.com',
       password: 'abcde$12345',

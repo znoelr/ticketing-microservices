@@ -3,7 +3,7 @@ import { app } from '../app';
 
 it('fails on unkwnow email', async () => {
   return request(app)
-    .post('/auth/signin')
+    .post('/api/auth/signin')
     .send({
       email: 'test@gmail.com',
       password: 'abcde$12345',
@@ -13,7 +13,7 @@ it('fails on unkwnow email', async () => {
 
 it('fails on invalid password', async () => {
   await request(app)
-    .post('/auth/signup')
+    .post('/api/auth/signup')
     .send({
       email: 'test@gmal.com',
       password: 'abcde$12345',
@@ -21,7 +21,7 @@ it('fails on invalid password', async () => {
     .expect(201);
 
   await request(app)
-    .post('/auth/signin')
+    .post('/api/auth/signin')
     .send({
       email: 'test@gmal.com',
       password: '123456',
@@ -31,7 +31,7 @@ it('fails on invalid password', async () => {
 
 it('responds with a cookie on successful signin', async () => {
   await request(app)
-    .post('/auth/signup')
+    .post('/api/auth/signup')
     .send({
       email: 'test@gmal.com',
       password: 'abcde$12345',
@@ -39,7 +39,7 @@ it('responds with a cookie on successful signin', async () => {
     .expect(201);
 
   const response = await request(app)
-    .post('/auth/signin')
+    .post('/api/auth/signin')
     .send({
       email: 'test@gmal.com',
       password: 'abcde$12345',

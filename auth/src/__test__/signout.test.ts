@@ -3,7 +3,7 @@ import { app } from '../app';
 
 it('clears the cookie after signout', async () => {
   await request(app)
-    .post('/auth/signup')
+    .post('/api/auth/signup')
     .send({
       email: 'test@gmail.com',
       password: 'abcde$12345',
@@ -11,7 +11,7 @@ it('clears the cookie after signout', async () => {
     .expect(201);
 
   const response = await request(app)
-  .get('/auth/signout')
+  .get('/api/auth/signout')
   .expect(200);
 
   expect(response.get('Set-Cookie')[0])
