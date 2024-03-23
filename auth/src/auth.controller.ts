@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
-import { BadRequestError } from "./errors";
+import { BadRequestError } from "@mss-ticketing/common";
 import { User } from "./db/models/user.model";
 import { HashService } from "./services/hash.service";
 

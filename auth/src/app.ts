@@ -2,7 +2,7 @@ import express from 'express';
 import 'express-async-errors';
 import cookieSession from 'cookie-session';
 import authRouter from './auth.router';
-import { errorHandler } from './middlewares/error-handler.middleware';
+import { errorHandler } from '@mss-ticketing/common';
 
 const app = express();
 

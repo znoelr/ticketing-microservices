@@ -1,8 +1,7 @@
 import express from 'express';
 import { body } from 'express-validator';
 import { getMe, signin, signout, signup } from './auth.controller';
-import { validateRequest } from './middlewares/validate-request.middleware';
-import { currentUser } from './middlewares/current-user.middleware';
+import { validateRequest, currentUser } from '@mss-ticketing/common';
 
 const router = express.Router();
 
