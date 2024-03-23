@@ -7,6 +7,11 @@ if(!process.env.JWT_KEY) {
   process.exit(1);
 }
 
+if(!process.env.MONGO_URI) {
+  console.error('Env "MONGO_URI" must be provided');
+  process.exit(1);
+}
+
 connectDb();
 
 app.listen(3000, () => {
