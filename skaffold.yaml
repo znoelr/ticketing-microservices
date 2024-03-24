@@ -9,6 +9,11 @@ build:
       docker:
         dockerfile: Dockerfile
 
+    - image: ticketing/tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+
     - image: ticketing/client
       context: client
       docker:
