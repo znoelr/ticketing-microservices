@@ -1,5 +1,5 @@
 import { randomBytes } from 'crypto';
-import nats, { Message } from 'node-nats-streaming';
+import nats, { Message, Stan } from 'node-nats-streaming';
 
 const clientId = randomBytes(6).toString('hex');
 const stan = nats.connect('ticketing', clientId, {
@@ -39,3 +39,45 @@ stan.on('connect', () => {
 
 process.on('SIGINT', () => stan.close());
 process.on('SIGTERM', () => stan.close());
+
+abstract class NatsListener {
+  abstract subject: string;
+  abstract queueGroupName: string;
+  protected ackWait = 1000 * 5; // 5s
+
+  abstract onMessage(data: any, msg: Message): void;
+
+  constructor(private client: Stan) {}
+
+  listen() {
+    const sub = this.client.subscribe(
+      this.subject,
+      this.queueGroupName,
+      this.getSubOptions()
+    );
+
+    sub.on('message', (msg: Message) => {
+      console.log(`Message Received: ${this.subject} / ${this.queueGroupName}`);
+      const parsedData = this.parseMessage(msg);
+      this.onMessage(parsedData, msg);
+    })
+  }
+
+  private getSubOptions() {
+    return this.client
+      .subscriptionOptions()
+      .setDeliverAllAvailable()
+      .setManualAckMode(true)
+      .setAckWait(this.ackWait)
+      .setDurableName(this.queueGroupName)
+    ;
+  }
+
+  private parseMessage(msg: Message): any {
+    const data = msg.getData();
+    if (typeof data === 'string') {
+      return JSON.parse(data);
+    }
+    return JSON.parse(data.toString('utf-8'));
+  }
+}
