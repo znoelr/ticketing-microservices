@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { requireAuth, validateRequest } from '@mss-ticketing/common';
+import { NatsClient, requireAuth, validateRequest } from '@mss-ticketing/common';
 import { Ticket } from '../models/ticket';
+import { TicketCreatedNatsPublisher } from '../events/ticket-created/ticket-created.publisher';
 
 const router = express.Router();
 
@@ -24,6 +25,14 @@ router.post(
       userId: req.currentUser!.id,
     });
     await ticket.save();
+
+    /** Publish Ticket Created event */
+    await new TicketCreatedNatsPublisher(NatsClient.client).publish({
+      id: ticket.id,
+      price: ticket.price,
+      title: ticket.title,
+      userId: ticket.userId,
+    });
 
     res.status(201).send(ticket);
   }

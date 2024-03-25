@@ -17,6 +17,10 @@ spec:
         env:
           - name: MONGO_URI
             value: mongodb://tickets-mongo-cluster-ip:27017/tickets_db
+
+          - name: NATS_URL
+            value: http://nats-cluster-ip-srv:4222
+
           - name: JWT_KEY
             valueFrom:
               secretKeyRef:
