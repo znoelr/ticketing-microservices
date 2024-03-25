@@ -3,7 +3,7 @@ import { BaseEvent, BaseNatsListener } from "./base-nats-listener";
 import { Subject } from "./subject.enum";
 
 export interface TicketEvent extends BaseEvent {
-  subject: Subject.TicketCreated;
+  subject: typeof Subject.TicketCreated;
   data: {
     id: string,
     title: string,

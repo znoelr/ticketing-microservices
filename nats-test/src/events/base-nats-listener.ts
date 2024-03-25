@@ -1,8 +1,8 @@
 import { Message, Stan } from "node-nats-streaming";
-import { Subject } from "./subject.enum";
+import { SubjectValue } from "./subject.enum";
 
 export interface BaseEvent {
-  subject: Subject;
+  subject: SubjectValue;
   data: any;
 };
 
@@ -24,7 +24,7 @@ export abstract class BaseNatsListener<T extends BaseEvent> {
 
     sub.on('message', (msg: Message) => {
       console.log(`Message Received: ${this.subject} / ${this.queueGroupName}`);
-      const parsedData = this.parseMessage(msg);
+      const parsedData: T['data'] = this.parseMessage(msg);
       this.onMessage(parsedData, msg);
     })
   }
@@ -39,7 +39,7 @@ export abstract class BaseNatsListener<T extends BaseEvent> {
     ;
   }
 
-  private parseMessage(msg: Message): any {
+  private parseMessage(msg: Message): T['data'] {
     const data = msg.getData();
     if (typeof data === 'string') {
       return JSON.parse(data);
