@@ -5,6 +5,7 @@ export type TicketUpdatedPayload = {
   id: string,
   title: string,
   price: number,
+  userId: string;
 };
 
 export interface TicketUpdatedEvent extends BaseEvent {
