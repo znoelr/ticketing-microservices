@@ -18,6 +18,14 @@ spec:
           - name: MONGO_URI
             value: mongodb://tickets-mongo-cluster-ip:27017/tickets_db
 
+          - name: NATS_CLUSTER_ID
+            value: ticketing
+
+          - name: NATS_CLIENT_ID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+
           - name: NATS_URL
             value: http://nats-cluster-ip-srv:4222
 
