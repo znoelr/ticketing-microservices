@@ -12,10 +12,10 @@ jest.mock('@mss-ticketing/common', () => {
     ...originalModule,
     NatsClient: {
       client: {
-        publish(subject: string, data: string, cb: () => void) {
+        publish: jest.fn().mockImplementation((subject: string, data: string, cb: () => void) => {
           cb();
-        }
-      }
+        }),
+      },
     },
   })
 });
@@ -32,6 +32,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  jest.clearAllMocks();
+
   const collections = await mongoose.connection.db.collections();
 
   for (let collection of collections) {
