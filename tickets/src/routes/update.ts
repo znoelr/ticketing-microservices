@@ -5,8 +5,10 @@ import {
   NotFoundError,
   requireAuth,
   UnauthorizedError,
+  NatsClient,
 } from '@mss-ticketing/common';
 import { Ticket } from '../models/ticket';
+import { TicketUpdatedNatsPublisher } from '../events/ticket-updated/ticket-updated.publisher';
 
 const router = express.Router();
 
@@ -36,6 +38,14 @@ router.put(
       price: req.body.price,
     });
     await ticket.save();
+
+    /** Publish Ticket updated event */
+    new TicketUpdatedNatsPublisher(NatsClient.client).publish({
+      id: ticket.id,
+      price: ticket.price,
+      title: ticket.title,
+      userId: ticket.userId,
+    });
 
     res.send(ticket);
   }
