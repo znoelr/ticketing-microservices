@@ -1,4 +1,3 @@
-import { randomBytes } from 'crypto';
 import nats, { Stan } from 'node-nats-streaming';
 
 export class NatsClient {
@@ -11,11 +10,8 @@ export class NatsClient {
     return NatsClient._client;
   }
 
-  static connect(clusterId: string, url: string): Promise<void> {
-    const clientId = randomBytes(6).toString('hex');
-
+  static connect(clusterId: string, clientId: string, url: string): Promise<void> {
     NatsClient._client = nats.connect(clusterId, clientId, { url });
-
     return new Promise<void>((resolve, reject) => {
       NatsClient.client.on('connect', () => {
         console.log('Publisher connected to NATS');
