@@ -1,5 +1,6 @@
 export const Subject  = ({
   TicketCreated: 'ticket:created',
+  TicketUpdated: 'ticket:updated',
   OrderCreated: 'order:created',
 }) as const;
 

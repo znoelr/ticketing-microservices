@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import nats, { Message, Stan } from 'node-nats-streaming';
-import { TicketsNatsListener } from './events/tickets-nats-listener';
+import { TicketsNatsListener, TicketsUpdatedNatsListener } from './events/tickets-nats-listener';
 
 const clientId = randomBytes(6).toString('hex');
 const stan = nats.connect('ticketing', clientId, {
@@ -17,6 +17,7 @@ stan.on('connect', () => {
   });
 
   const ticketClient = new TicketsNatsListener(stan).listen();
+  new TicketsUpdatedNatsListener(stan).listen();
 });
 
 process.on('SIGINT', () => stan.close());

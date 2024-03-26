@@ -20,3 +20,22 @@ export class TicketsNatsListener extends BaseNatsListener<TicketEvent> {
     msg.ack();
   }
 }
+
+export interface TicketUpdatedEvent extends BaseEvent {
+  subject: typeof Subject.TicketUpdated;
+  data: {
+    id: string,
+    title: string,
+    price: number,
+  },
+}
+
+export class TicketsUpdatedNatsListener extends BaseNatsListener<TicketUpdatedEvent> {
+  readonly subject = Subject.TicketUpdated;
+  queueGroupName: string = 'payments-service';
+
+  onMessage(data: TicketUpdatedEvent['data'], msg: Message): void {
+    console.log(data);
+    msg.ack();
+  }
+}
