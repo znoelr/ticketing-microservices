@@ -1,12 +1,24 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import request from 'supertest';
-import { app } from '../app';
 import jwt from 'jsonwebtoken';
 
 declare global {
   var signin: () => string[];
 }
+
+jest.mock('@mss-ticketing/common', () => {
+  const originalModule = jest.requireActual('@mss-ticketing/common');
+  return ({
+    ...originalModule,
+    NatsClient: {
+      client: {
+        publish(subject: string, data: string, cb: () => void) {
+          cb();
+        }
+      }
+    },
+  })
+});
 
 let mongo: any;
 beforeAll(async () => {
