@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-import { natsWrapper } from './nats-wrapper';
+import { TicketCreatedNatsListener } from './events/listeners/ticket-created.listener';
+import { NatsClient } from '@mss-ticketing/common';
+import { TicketUpdatedNatsListener } from './events/listeners/ticket-updated.listener';
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
@@ -20,17 +22,20 @@ const start = async () => {
   }
 
   try {
-    await natsWrapper.connect(
+    await NatsClient.connect(
       process.env.NATS_CLUSTER_ID,
       process.env.NATS_CLIENT_ID,
       process.env.NATS_URL
     );
-    natsWrapper.client.on('close', () => {
+    NatsClient.client.on('close', () => {
       console.log('NATS connection closed!');
       process.exit();
     });
-    process.on('SIGINT', () => natsWrapper.client.close());
-    process.on('SIGTERM', () => natsWrapper.client.close());
+    process.on('SIGINT', () => NatsClient.client.close());
+    process.on('SIGTERM', () => NatsClient.client.close());
+
+    new TicketCreatedNatsListener(NatsClient.client).listen();
+    new TicketUpdatedNatsListener(NatsClient.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDb');
