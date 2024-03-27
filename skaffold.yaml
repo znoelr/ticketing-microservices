@@ -14,6 +14,11 @@ build:
       docker:
         dockerfile: Dockerfile
 
+    - image: ticketing/orders
+      context: orders
+      docker:
+        dockerfile: Dockerfile
+
     - image: ticketing/client
       context: client
       docker:
