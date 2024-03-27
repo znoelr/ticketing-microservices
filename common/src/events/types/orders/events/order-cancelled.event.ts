@@ -1,5 +1,5 @@
-import { BaseEvent } from "../../base";
-import { OrderSubjects } from "./subjects";
+import { BaseEvent } from "../../../base";
+import { OrderSubjects } from "../order.subjects";
 
 export type OrderCancelledPayload = {
   id: string;

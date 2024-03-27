@@ -1,5 +1,5 @@
-import { BaseEvent } from "../../base";
-import { TicketSubjects } from "./subjects";
+import { BaseEvent } from "../../../base";
+import { TicketSubjects } from "../ticket.subjects";
 
 export type TicketUpdatedPayload = {
   id: string,

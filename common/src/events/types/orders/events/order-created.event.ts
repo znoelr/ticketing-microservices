@@ -1,6 +1,6 @@
-import { BaseEvent } from "../../base";
-import { OrderStatusValue } from "../../types";
-import { OrderSubjects } from "./subjects";
+import { BaseEvent } from "../../../base";
+import { OrderSubjects } from "../order.subjects";
+import { OrderStatusValue } from "../order.types";
 
 export type OrderCreatedPayload = {
   id: string;
