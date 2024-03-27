@@ -7,7 +7,7 @@ import {
 } from '@mss-ticketing/common';
 import express, { Request, Response } from 'express';
 import { Order } from '../models/order';
-import { OrderCancelledNatsPublisher } from '../events/order-cancelled/order-cancelled.publisher';
+import { OrderCancelledNatsPublisher } from '../events/publishers/order-cancelled.publisher';
 
 const router = express.Router();
 

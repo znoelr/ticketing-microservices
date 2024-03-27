@@ -11,7 +11,7 @@ import {
 import { body } from 'express-validator';
 import { Ticket } from '../models/ticket';
 import { Order } from '../models/order';
-import { OrderCreatedNatsPublisher } from '../events/order-created/order-created.publisher';
+import { OrderCreatedNatsPublisher } from '../events/publishers/order-created.publisher';
 
 const router = express.Router();
 
