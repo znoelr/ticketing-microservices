@@ -1,9 +1,17 @@
 import mongoose from 'mongoose';
 import express, { Request, Response } from 'express';
-import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest } from '@mss-ticketing/common';
+import {
+  BadRequestError,
+  NatsClient,
+  NotFoundError,
+  OrderStatus,
+  requireAuth,
+  validateRequest,
+} from '@mss-ticketing/common';
 import { body } from 'express-validator';
 import { Ticket } from '../models/ticket';
 import { Order } from '../models/order';
+import { OrderCreatedNatsPublisher } from '../events/order-created/order-created.publisher';
 
 const router = express.Router();
 
@@ -49,6 +57,16 @@ router.post(
     await order.save();
 
     // Publish an event saying that an order was created
+    new OrderCreatedNatsPublisher(NatsClient.client).publish({
+      id: order.id,
+      userId: order.userId,
+      status: order.status,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      }
+    });
 
     res.status(201).send(order);
   }
