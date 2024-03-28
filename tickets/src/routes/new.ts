@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { NatsClient, requireAuth, validateRequest } from '@mss-ticketing/common';
 import { Ticket } from '../models/ticket';
-import { TicketCreatedNatsPublisher } from '../events/ticket-created/ticket-created.publisher';
+import { TicketCreatedNatsPublisher } from '../events/publishers/ticket-created.publisher';
 
 const router = express.Router();
 

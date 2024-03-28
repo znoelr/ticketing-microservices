@@ -8,7 +8,7 @@ import {
   NatsClient,
 } from '@mss-ticketing/common';
 import { Ticket } from '../models/ticket';
-import { TicketUpdatedNatsPublisher } from '../events/ticket-updated/ticket-updated.publisher';
+import { TicketUpdatedNatsPublisher } from '../events/publishers/ticket-updated.publisher';
 
 const router = express.Router();
 
