@@ -3,6 +3,7 @@ import { TicketSubjects } from "../ticket.subjects";
 
 export type TicketUpdatedPayload = {
   id: string,
+  version: number;
   title: string,
   price: number,
   userId: string;

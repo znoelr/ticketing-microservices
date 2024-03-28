@@ -4,6 +4,7 @@ import { OrderStatusValue } from "../order.types";
 
 export type OrderCreatedPayload = {
   id: string;
+  version: number;
   status: OrderStatusValue;
   userId: string;
   expiresAt: string;
