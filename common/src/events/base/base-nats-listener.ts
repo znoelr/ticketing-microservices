@@ -8,7 +8,7 @@ export abstract class BaseNatsListener<T extends BaseEvent> {
 
   abstract onMessage(data: T['data'], msg: Message): void;
 
-  constructor(private client: Stan) {}
+  constructor(protected client: Stan) {}
 
   listen() {
     const sub = this.client.subscribe(

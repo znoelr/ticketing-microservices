@@ -4,7 +4,7 @@ import { BaseEvent } from "./types";
 export abstract class BaseNatsPublisher<T extends BaseEvent> {
   readonly abstract subject: T['subject'];
 
-  constructor(private client: Stan) {}
+  constructor(protected client: Stan) {}
 
   publish(data: T['data']): Promise<void> {
     return new Promise<void>((resolve, reject) => {
