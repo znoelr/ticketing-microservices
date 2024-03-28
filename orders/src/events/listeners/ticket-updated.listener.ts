@@ -8,7 +8,7 @@ export class TicketUpdatedNatsListener extends BaseNatsListener<TicketUpdatedEve
   queueGroupName: string = QueueGroupName;
 
   async onMessage(data: TicketUpdatedPayload, msg: Message): Promise<void> {
-    const ticket = await Ticket.findById(data.id);
+    const ticket = await Ticket.findByEvent(data);
     if (!ticket) {
       throw new NotFoundError();
     }
