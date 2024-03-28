@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import { NatsClient } from '@mss-ticketing/common';
 
 import { app } from './app';
+import { OrderCreatedNatsListener } from './events/listeners/order-created.listener';
+import { OrderCancelledNatsListener } from './events/listeners/order-cancelled.listener';
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
@@ -26,7 +28,10 @@ const start = async () => {
       process.env.NATS_CLIENT_ID!,
       process.env.NATS_URL!
     );
-    NatsClient.client.on('close', closeNats)
+    NatsClient.client.on('close', closeNats);
+
+    await new OrderCreatedNatsListener(NatsClient.client).listen();
+    await new OrderCancelledNatsListener(NatsClient.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDb');
