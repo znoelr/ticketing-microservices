@@ -6,6 +6,7 @@ import {
   requireAuth,
   UnauthorizedError,
   NatsClient,
+  BadRequestError,
 } from '@mss-ticketing/common';
 import { Ticket } from '../models/ticket';
 import { TicketUpdatedNatsPublisher } from '../events/publishers/ticket-updated.publisher';
@@ -27,6 +28,10 @@ router.put(
 
     if (!ticket) {
       throw new NotFoundError();
+    }
+
+    if (ticket.orderId) {
+      throw new BadRequestError('Cannot edit a reserved ticket');
     }
 
     if (ticket.userId !== req.currentUser!.id) {
