@@ -2,6 +2,7 @@ import { BaseNatsListener, OrderCreatedEvent, OrderCreatedPayload, OrderSubjects
 import { Message } from "node-nats-streaming";
 import { queueGroupName } from "./queue-group-name";
 import { Ticket } from "../../models/ticket";
+import { TicketUpdatedNatsPublisher } from "../publishers/ticket-updated.publisher";
 
 export class OrderCreatedNatsListener extends BaseNatsListener<OrderCreatedEvent> {
   readonly subject = OrderSubjects.Created;
@@ -18,6 +19,15 @@ export class OrderCreatedNatsListener extends BaseNatsListener<OrderCreatedEvent
     ticket.set({ orderId: data.id });
     // Save the ticket
     await ticket.save();
+    // Publish ticket updated event
+    new TicketUpdatedNatsPublisher(this.client).publish({
+      id: ticket.id,
+      price: ticket.price,
+      title: ticket.title,
+      userId: ticket.userId,
+      orderId: ticket.orderId,
+      version: ticket.version,
+    });
     // ack the message
     msg.ack();
   }
