@@ -5,7 +5,7 @@ export class NatsClient {
 
   static get client() {
     if (!NatsClient._client) {
-      throw new Error('Cannot access NATS client before starting calling connect');
+      throw new Error('Cannot access NATS client before calling connect');
     }
     return NatsClient._client;
   }
