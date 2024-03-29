@@ -19,6 +19,11 @@ build:
       docker:
         dockerfile: Dockerfile
 
+    - image: ticketing/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+
     - image: ticketing/client
       context: client
       docker:
