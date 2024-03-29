@@ -17,7 +17,7 @@ spec:
           image: ticketing/client
           resources:
             limits:
-              memory: "5200Mi"
+              memory: "1200Mi"
               cpu: "500m"
 
 ---
