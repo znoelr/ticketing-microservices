@@ -1,4 +1,5 @@
 import { NatsClient } from "@mss-ticketing/common";
+import { OrderCreatedNatsListener } from "./events/listeners/order-created.listener";
 
 const start = async () => {
   if (!process.env.NATS_CLIENT_ID) {
@@ -23,6 +24,7 @@ const start = async () => {
     });
     process.on('SIGINT', () => NatsClient.client.close());
     process.on('SIGTERM', () => NatsClient.client.close());
+    await new OrderCreatedNatsListener(NatsClient.client).listen();
   } catch (err) {
     console.error(err);
   }
