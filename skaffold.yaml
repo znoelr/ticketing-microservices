@@ -24,6 +24,11 @@ build:
       docker:
         dockerfile: Dockerfile
 
+    - image: ticketing/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+
     - image: ticketing/client
       context: client
       docker:
