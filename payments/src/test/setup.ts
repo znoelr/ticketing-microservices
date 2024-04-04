@@ -20,6 +20,8 @@ jest.mock('@mss-ticketing/common', () => {
   })
 });
 
+process.env.STRIPE_KEY = '<YOUR_KEY_HERE>';
+
 let mongo: any;
 beforeAll(async () => {
   process.env.JWT_KEY = 'asdfasdf';
