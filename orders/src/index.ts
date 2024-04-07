@@ -4,6 +4,7 @@ import { TicketCreatedNatsListener } from './events/listeners/ticket-created.lis
 import { NatsClient } from '@mss-ticketing/common';
 import { TicketUpdatedNatsListener } from './events/listeners/ticket-updated.listener';
 import { ExpirationCompleteNatsListener } from './events/listeners/expiration-complete.listener';
+import { PaymentCreatedListener } from './events/listeners/payment-created-listener';
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
@@ -38,6 +39,7 @@ const start = async () => {
     new TicketCreatedNatsListener(NatsClient.client).listen();
     new TicketUpdatedNatsListener(NatsClient.client).listen();
     new ExpirationCompleteNatsListener(NatsClient.client).listen();
+    new PaymentCreatedListener(NatsClient.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDb');
