@@ -30,7 +30,7 @@ export class ExpirationCompleteNatsListener extends BaseNatsListener<ExpirationC
     await order.save();
     await new OrderCancelledNatsPublisher(NatsClient.client).publish({
       id: order.id,
-      version: order.id,
+      version: order.version,
       ticket: {
         id: order.ticket.id,
       },
