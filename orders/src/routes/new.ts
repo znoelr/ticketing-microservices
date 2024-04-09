@@ -15,7 +15,7 @@ import { OrderCreatedNatsPublisher } from '../events/publishers/order-created.pu
 
 const router = express.Router();
 
-const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+const EXPIRATION_WINDOW_SECONDS = 60;
 
 router.post(
   '/api/orders',
