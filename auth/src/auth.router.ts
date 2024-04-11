@@ -11,7 +11,7 @@ router.post('/signup',
     body('password').isLength({ min: 4, max: 20 }).withMessage('The password must conatin between 4 and 20 characters'),
   ],
   validateRequest,
-  signup  
+  signup
 );
 
 router.post('/signin',

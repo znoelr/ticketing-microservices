@@ -19,7 +19,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
   }, process.env.JWT_KEY!);
   req.session = { jwt: token };
   res.status(201).json(newUser);
-}
+};
 
 
 export const signin = async (req: Request, res: Response, next: NextFunction) => {
@@ -39,15 +39,15 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
   }, process.env.JWT_KEY!);
   req.session = { jwt: token };
   res.status(200).json(foundUser);
-}
+};
 
 export const signout = async (req: Request, res: Response, next: NextFunction) => {
   req.session = null;
   res.end();
-}
+};
 
 export const getMe = async (req: Request, res: Response, next: NextFunction) => {
   res.json({
     currentUser: req.currentUser || null,
   });
-}
+};
